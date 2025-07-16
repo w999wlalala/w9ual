@@ -1,11 +1,10 @@
-# .github/workflows/pr-notification.yml
 name: daily-report
+
 on:
-  schedule:
-    - cron: '*/5 * * * *'
+  # schedule:
+  #   - cron: '*/5 * * * *'
   workflow_dispatch:
-  pull_request:
-    types: [opened]
+
 jobs:
   build:
     runs-on: ubuntu-latest
