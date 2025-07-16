@@ -1,4 +1,4 @@
-name: Send Email on Push
+name: Notify Team
 
 on:
   push:
@@ -9,45 +9,15 @@ jobs:
   send-email:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        
-      - name: Send email notification
-        uses: dawidd6/action-send-mail@v6
+      - name: Send Deployment Email
+        uses: wesdevteam/maileraction@v1
         with:
-          # SMTP server configuration
-          server_address: smtp.gmail.com
-          server_port: 465
-          secure: true
-          
-          # Authentication
-          username: wa9999253@gmail.com
-          password: ${{ secrets.GMAIL_APP_PASSWORD }}
-          
-          # Email headers
-          subject: "🚀 Code Push Notification - ${{ github.repository }}"
-          from: "GitHub Actions <wa9999253@gmail.com>"
           to: wyhong0826@gmail.com
-          
-          # Email content
-          body: |
-            Hello! 👋
-            
-            A new push was made to your repository:
-            
-            📦 Repository: ${{ github.repository }}
-            🌿 Branch: ${{ github.ref_name }}
-            👤 Author: ${{ github.actor }}
-            📝 Commit: ${{ github.event.head_commit.message }}
-            🔗 SHA: ${{ github.sha }}
-            📅 Time: ${{ github.event.head_commit.timestamp }}
-            
-            View the changes: ${{ github.event.head_commit.url }}
-            
-            Best regards,
-            GitHub Actions 🤖
-          
-          # Optional settings
-          ignore_cert: true
-          priority: normal
-          convert_markdown: false
+          subject: "✅ Production Deployment Complete"
+          text: "The deployment was completed successfully."
+          html: "<p>The <strong>deployment</strong> to production was successful 🎉</p>"
+        env:
+          MAIL: "wa9999253@gmail.com"
+          MAIL_PASSWORD: "qbocnpmlhcbdyhrv"
+          MAIL_HOST: "smtp.gmail.com"
+          MAIL_PORT: 465
