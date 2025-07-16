@@ -16,4 +16,4 @@ jobs:
         with:
           python-version: 3.x
       - name: Run email code
-        run: python3 send_email.py
+        run: python send_email.py
