@@ -5,7 +5,7 @@ import os
 port = 465
 smtp_server = "smtp.gmail.com"
 USERNAME = os.environ.get('USER_EMAIL')
-PASSWORD = os.environ.get('USER_PASSWORD')
+PASSWORD = os.environ.get('GMAIL_APP_PASSWORD')
 TARGET_EMAIL = "wyhong0826@gmail.com"  # Target recipient email
 
 message = """\
