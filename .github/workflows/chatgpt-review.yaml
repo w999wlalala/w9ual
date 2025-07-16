@@ -1,11 +1,11 @@
 name: daily-report
 
 on:
-   schedule:
-     - cron: '*/1 * * * *'
-   workflow_dispatch:
-   pull_request:
-     types: [opened]
+  schedule:     # ✅ Correct (2 spaces)
+    - cron: '*/1 * * * *'
+  workflow_dispatch:
+  pull_request:
+    types: [opened]
 
 jobs:
   build:
