@@ -5,7 +5,7 @@ from datetime import datetime
 port = 465
 smtp_server = "smtp.gmail.com"
 USERNAME = "wa9999253@gmail.com"
-PASSWORD = "qbocnpmlhcbdyhrv"  # Remove spaces from app password
+PASSWORD = "zktw jybz lzyr dkyp"  # Remove spaces from app password
 TARGET_EMAIL = "wyhong0826@gmail.com"
 
 # Add detailed logging function

@@ -8,24 +8,15 @@ permissions:
   pull-requests: write
 
 jobs:
-  send-email:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-      contents: write
-      issues: write
-
-    name: Send Deployment Email
     steps:
-      - name: Send Deployment Email
-        uses: wesdevteam/maileraction@v1
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
         with:
-          to: wyhong0826@gmail.com
-          subject: "✅ Production Deployment Complete"
-          text: "The deployment was completed successfully."
-          html: "<p>The <strong>deployment</strong> to production was successful 🎉</p>"
+          python-version: 3.x
+      - name: Run email code
         env:
-          MAIL: "wa9999253@gmail.com"
-          MAIL_PASSWORD: "qbocnpmlhcbdyhrv"
-          MAIL_HOST: "smtp.gmail.com"
-          MAIL_PORT: 465
+          USER_EMAIL: ${{ secrets.USER_EMAIL }}
+          USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
+        run: python send_email.py
