@@ -1,10 +1,12 @@
 name: Notify Team
 
 on:
-  push:
-    branches:
-      - main
-
+  pull_request:
+    types: [opened, reopened, ready_for_review]
+  issue_comment:
+permissions:
+  pull-requests: write
+  
 jobs:
   send-email:
     runs-on: ubuntu-latest
