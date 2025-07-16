@@ -19,4 +19,4 @@ jobs:
         env:
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
           USER_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-        run: python send_email.py
+        run: python3 send_email.py
