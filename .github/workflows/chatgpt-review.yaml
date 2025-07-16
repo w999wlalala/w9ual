@@ -1,13 +1,17 @@
-name: daily-report
+name: Send Email on Push
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: w999wlalala/w9ual
+      - name: Send Email
+        uses: dawidd6/action-send-mail@v6
         with:
           server_address: smtp.gmail.com
           server_port: 465
