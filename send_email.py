@@ -5,7 +5,7 @@ import os
 port = 465
 smtp_server = "smtp.gmail.com"
 USERNAME = "wa9999253@gmail.com"
-PASSWORD = "qbocnpmlhcbdyhrv"
+PASSWORD = "qboc npml hcbd yhrv"
 TARGET_EMAIL = "wyhong0826@gmail.com"  # Target recipient email
 
 message = """\
