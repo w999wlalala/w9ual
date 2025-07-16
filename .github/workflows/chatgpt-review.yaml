@@ -19,4 +19,6 @@ jobs:
         env:
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
           USER_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          EXECUTION_SOURCE: "github-actions"
+          GITHUB_CONTEXT: ${{ toJson(github) }}
         run: python3 send_email.py
