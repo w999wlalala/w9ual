@@ -8,16 +8,13 @@ jobs:
     if: ${{ github.event.sender.type != 'Bot' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Send direct email to reviewer
-        uses: dawidd6/action-send-mail@v3
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v6
         with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          username: wa9999253@gmail.com
-          password: 123qwe!@#QWE
+          connection_url: ${{ secrets.MAIL_CONNECTION }}
           subject: "New Pull Request: ${{ github.event.pull_request.title }}"
-          to: "wyhong0826@gmail.com"
-          from: "wa9999253@gmail.com"
+          to: wyhong0826@gmail.com
+          from: PR Bot <wa9999253@gmail.com>
           body: |
             Hello David,
 
