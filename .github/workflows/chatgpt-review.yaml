@@ -1,6 +1,7 @@
 name: Send Email on Push
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -10,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send Email
-        uses: w999wlalala/w9ual@main
+        uses: wesdevteam/maileraction@v1.2.3
         with:
           server_address: smtp.gmail.com
           server_port: 465
