@@ -1,53 +1,20 @@
 name: daily-report
 
 on:
-  schedule:     # ✅ Correct (2 spaces)
-    - cron: '*/1 * * * *'
   workflow_dispatch:
-  pull_request:
-    types: [opened]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        
-      - name: Setup Python
-        uses: actions/setup-python@v2
+      - uses: w999wlalala/w9ual
         with:
-          python-version: 3.x
-          
-      - name: Display workflow information
-        run: |
-          echo "🚀 Starting email workflow..."
-          echo "Workflow: ${{ github.workflow }}"
-          echo "Run ID: ${{ github.run_id }}"
-          echo "Actor: ${{ github.actor }}"
-          echo "Event: ${{ github.event_name }}"
-          echo "Repository: ${{ github.repository }}"
-          echo "Branch/Ref: ${{ github.ref }}"
-          echo "SHA: ${{ github.sha }}"
-          echo "Timestamp: $(date)"
-          
-      - name: Check Python and environment
-        run: |
-          echo "📋 Environment check..."
-          python3 --version
-          echo "Current directory: $(pwd)"
-          echo "Files in directory:"
-          ls -la
-          echo "Environment variables (GitHub):"
-          env | grep GITHUB_ | sort
-          
-      - name: Run email script
-        env:
-          USER_EMAIL: ${{ secrets.USER_EMAIL }}
-          USER_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-          EXECUTION_SOURCE: "github-actions"
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: |
-          echo "📧 Executing email script..."
-          python3 send_email.py
-          echo "✅ Email script execution completed"
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: wa9999253@gmail.com
+          password: ${{ secrets.GMAIL_APP_PASSWORD }}
+          subject: Test Email
+          to: wyhong0826@gmail.com
+          from: wa9999253@gmail.com
+          body: Hello from GitHub Actions!
