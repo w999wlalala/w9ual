@@ -1,0 +1,29 @@
+# .github/workflows/pr-notification.yml
+name: PR Notification
+on:
+  pull_request:
+    types: [opened]
+jobs:
+  send_email_on_pr_opened:
+    if: ${{ github.event.sender.type != 'Bot' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send direct email to reviewer
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: wa9999253@gmail.com
+          password: 123qwe!@#QWE
+          subject: "New Pull Request: ${{ github.event.pull_request.title }}"
+          to: "wyhong0826@gmail.com"
+          from: "wa9999253@gmail.com"
+          body: |
+            Hello David,
+
+            A new pull request has been opened by ${{ github.event.pull_request.user.login }}.
+
+            Title: ${{ github.event.pull_request.title }}
+            URL: ${{ github.event.pull_request.html_url }}
+
+            Please review it at your earliest convenience.
