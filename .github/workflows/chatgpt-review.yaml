@@ -8,12 +8,19 @@ permissions:
   pull-requests: write
 
 jobs:
-  build:
+  my-job:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-        with:
-          python-version: 3.x
-      - name: Run email code
-        run: python send_email.py
+      - name: my-step
+        run: echo "Hello World!"
+
+#jobs:
+#  build:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: actions/setup-python@v2
+#        with:
+#          python-version: 3.x
+#      - name: Run email code
+#        run: python send_email.py
