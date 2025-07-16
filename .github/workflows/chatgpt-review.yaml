@@ -1,30 +1,21 @@
 # .github/workflows/pr-notification.yml
-name: PR Notification
+name: daily-report
 on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
   pull_request:
     types: [opened]
 jobs:
-  send_email_on_pr_opened:
-    if: ${{ github.event.sender.type != 'Bot' }}
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Send mail
-        uses: dawidd6/action-send-mail@v6
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
         with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          secure: true
-          username: wa9999253@gmail.com
-          password: ${{ secrets.GMAIL_APP_PASSWORD }}
-          subject: "New Pull Request: ${{ github.event.pull_request.title }}"
-          to: wyhong0826@gmail.com
-          from: wa9999253@gmail.com
-          body: |
-            Hello David,
-
-            A new pull request has been opened by ${{ github.event.pull_request.user.login }}.
-
-            Title: ${{ github.event.pull_request.title }}
-            URL: ${{ github.event.pull_request.html_url }}
-
-            Please review it at your earliest convenience.
+          python-version: 3.x
+      - name: Run email code
+        env:
+          USER_EMAIL: ${{ secrets.USER_EMAIL }}
+          USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
+        run: python send_email.py
