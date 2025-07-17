@@ -18,36 +18,30 @@ def github_cli_login(token):
     """
     Authenticate GitHub CLI using the provided token
     """
-    try:
-        # Method 1: Set environment variable (preferred for GitHub Actions)
-        import os
-        os.environ['GITHUB_TOKEN'] = token
-        print("GitHub token set in environment")
+    
+    print("GitHub token set in environment")
+    
+    # Method 2: Use gh auth login with token
+    auth_cmd = ['gh', 'auth', 'login', '--with-token']
+    auth_result = subprocess.run(auth_cmd, input=token, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    
+    if auth_result.returncode == 0:
+        print("GitHub CLI authenticated successfully with token")
+    else:
+        print(f"GitHub CLI auth warning: {auth_result.stderr}")
+        print("Continuing with environment token...")
+    
+    # Verify authentication
+    status_cmd = ['gh', 'auth', 'status']
+    status_result = subprocess.run(status_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    
+    if status_result.returncode == 0:
+        print("GitHub CLI authentication verified")
+        return True
+    else:
+        print("GitHub CLI authentication status unclear, but token is set")
+        return True
         
-        # Method 2: Use gh auth login with token
-        auth_cmd = ['gh', 'auth', 'login', '--with-token']
-        auth_result = subprocess.run(auth_cmd, input=token, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        
-        if auth_result.returncode == 0:
-            print("GitHub CLI authenticated successfully with token")
-        else:
-            print(f"GitHub CLI auth warning: {auth_result.stderr}")
-            print("Continuing with environment token...")
-        
-        # Verify authentication
-        status_cmd = ['gh', 'auth', 'status']
-        status_result = subprocess.run(status_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        
-        if status_result.returncode == 0:
-            print("GitHub CLI authentication verified")
-            return True
-        else:
-            print("GitHub CLI authentication status unclear, but token is set")
-            return True
-            
-    except Exception as e:
-        print(f"Error during GitHub CLI authentication: {e}")
-        return False
 
 def format_commit_date(iso_date):
     """
@@ -350,4 +344,4 @@ if __name__ == "__main__":
     TOKEN = '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'
     # Get git log for specified number of days (default: 1 day)
     days = 1  # Change this number to get more days (e.g., 4 for 4 days)
-    print(get_git_log(TOKEN))
+    print(get_git_log(TOKEN,2))
