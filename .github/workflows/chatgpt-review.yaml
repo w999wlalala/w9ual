@@ -1,32 +1,40 @@
-name: Notify Team
-
+name: Daily Git Report
 on:
   workflow_dispatch:
-  pull_request:
-    types: [opened, reopened, ready_for_review]
-  issue_comment:
-
+  schedule:
+    - cron: '0 0 * * *'  # Run daily at midnight UTC
 permissions:
-  pull-requests: write
+  contents: read
 
 jobs:
-  my-job:
+  git-report:
     runs-on: ubuntu-latest
     steps:
-      - name: Print Hello World Message
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full git history
+          
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+          
+      - name: Install GitHub CLI
         run: |
-          echo "=============================="
-          echo "🎉 HELLO WORLD! 🎉"
-          echo "✅ This step is working!"
-          echo "=============================="
-
-#jobs:
-#  build:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v2
-#      - uses: actions/setup-python@v2
-#        with:
-#          python-version: 3.x
-#      - name: Run email code
-#        run: python send_email.py
+          sudo apt-get update
+          sudo apt-get install gh -y
+          
+      - name: Run git report
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Generating yesterday's git report..."
+          python3 hi.py
+          
+      - name: Send email report
+        env:
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: |
+          echo "Sending email report..."
+          python3 send_email.py
