@@ -351,6 +351,6 @@ def get_git_log(TOKEN, days=1):
 
 if __name__ == "__main__":
     TOKEN = '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'
-    # Get git log for specified number of days (default: 1 day)
+    # Get git log for specified number of days (default: 1 day).
     days = 1  # Change this number to get more days (e.g., 4 for 4 days)
     print(get_git_log(TOKEN,1))
