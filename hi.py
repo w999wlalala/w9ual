@@ -333,7 +333,9 @@ def get_git_log(TOKEN, days=1):
         for commit in commits_by_committer[committer]:
             branch_str = ', '.join(commit['branches']) if commit['branches'] else 'N/A'
             commit_date = format_commit_date(commit.get('date', 'Unknown'))
-            output.append(f"        Commits ({commit_date}) {commit['hash']}: on branch(es): {branch_str}: {commit['message']}")
+            # Add timezone to commit date display to match header format
+            commit_date_with_tz = f"{commit_date} ({detected_timezone})"
+            output.append(f"        Commits ({commit_date_with_tz}) {commit['hash']}: on branch(es): {branch_str}: {commit['message']}")
             if commit['pr_url']:
                 output.append(f"            PR: {commit['pr_url']}")
             output.append(f"            Files changed:")
