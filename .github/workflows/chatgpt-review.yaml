@@ -1,29 +1,40 @@
-# .github/workflows/pr-notification.yml
-name: PR Notification
+name: Daily Git Report
 on:
-  pull_request:
-    types: [opened]
+  workflow_dispatch:
+  schedule:
+    - cron: '* * * * *'  # Run daily at midnight UTC
+permissions:
+  contents: read
+
 jobs:
-  send_email_on_pr_opened:
-    if: ${{ github.event.sender.type != 'Bot' }}
+  git-report:
     runs-on: ubuntu-latest
     steps:
-      - name: Send direct email to reviewer
-        uses: dawidd6/action-send-mail@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          username: wa9999253@gmail.com
-          password: 123qwe!@#QWE
-          subject: "New Pull Request: ${{ github.event.pull_request.title }}"
-          to: "wyhong0826@gmail.com"
-          from: "wa9999253@gmail.com"
-          body: |
-            Hello David,
-
-            A new pull request has been opened by ${{ github.event.pull_request.user.login }}.
-
-            Title: ${{ github.event.pull_request.title }}
-            URL: ${{ github.event.pull_request.html_url }}
-
-            Please review it at your earliest convenience.
+          fetch-depth: 0  # Fetch full git history
+          
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+          
+      - name: Install GitHub CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install gh -y
+          
+      - name: Run git report
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Generating yesterday's git report..."
+          python3 hi.py
+          
+      - name: Send email report
+        env:
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: |
+          echo "Sending email report..."
+          python3 send_email.py
